@@ -871,9 +871,6 @@ int32_t iis3dwb_xl_self_test_set(stmdev_ctx_t *ctx,
 int32_t iis3dwb_xl_self_test_get(stmdev_ctx_t *ctx,
                                  iis3dwb_st_xl_t *val);
 
-int32_t iis3dwb_xl_filter_lp2_set(stmdev_ctx_t *ctx, uint8_t val);
-int32_t iis3dwb_xl_filter_lp2_get(stmdev_ctx_t *ctx, uint8_t *val);
-
 int32_t iis3dwb_filter_settling_mask_set(stmdev_ctx_t *ctx,
                                          uint8_t val);
 int32_t iis3dwb_filter_settling_mask_get(stmdev_ctx_t *ctx,
@@ -881,7 +878,7 @@ int32_t iis3dwb_filter_settling_mask_get(stmdev_ctx_t *ctx,
 
 typedef enum
 {
-  IIS3DWB_SLOPE_ODR_DIV_4           = 0x30,
+  IIS3DWB_HP_REF_MODE               = 0x37,
   IIS3DWB_HP_ODR_DIV_10             = 0x11,
   IIS3DWB_HP_ODR_DIV_20             = 0x12,
   IIS3DWB_HP_ODR_DIV_45             = 0x13,
@@ -898,11 +895,11 @@ typedef enum
   IIS3DWB_LP_ODR_DIV_200            = 0x85,
   IIS3DWB_LP_ODR_DIV_400            = 0x86,
   IIS3DWB_LP_ODR_DIV_800            = 0x87,
-} iis3dwb_hp_slope_xl_en_t;
-int32_t iis3dwb_xl_hp_path_on_out_set(stmdev_ctx_t *ctx,
-                                      iis3dwb_hp_slope_xl_en_t val);
-int32_t iis3dwb_xl_hp_path_on_out_get(stmdev_ctx_t *ctx,
-                                      iis3dwb_hp_slope_xl_en_t *val);
+} iis3dwb_filt_xl_en_t;
+int32_t iis3dwb_xl_filt_path_on_out_set(stmdev_ctx_t *ctx,
+                                        iis3dwb_filt_xl_en_t val);
+int32_t iis3dwb_xl_filt_path_on_out_get(stmdev_ctx_t *ctx,
+                                        iis3dwb_filt_xl_en_t *val);
 
 int32_t iis3dwb_xl_fast_settling_set(stmdev_ctx_t *ctx, uint8_t val);
 int32_t iis3dwb_xl_fast_settling_get(stmdev_ctx_t *ctx, uint8_t *val);

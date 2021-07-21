@@ -1254,50 +1254,6 @@ int32_t iis3dwb_xl_self_test_get(stmdev_ctx_t *ctx,
   */
 
 /**
-  * @brief  Accelerometer output from LPF2 filtering stage selection.[set]
-  *
-  * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  val    Change the values of lpf2_xl_en in reg CTRL1_XL
-  * @retval        Interface status (MANDATORY: return 0 -> no Error).
-  *
-  */
-int32_t iis3dwb_xl_filter_lp2_set(stmdev_ctx_t *ctx, uint8_t val)
-{
-  iis3dwb_ctrl1_xl_t ctrl1_xl;
-  int32_t ret;
-
-  ret = iis3dwb_read_reg(ctx, IIS3DWB_CTRL1_XL, (uint8_t *)&ctrl1_xl, 1);
-
-  if (ret == 0)
-  {
-    ctrl1_xl.lpf2_xl_en = (uint8_t)val;
-    ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL1_XL,
-                            (uint8_t *)&ctrl1_xl, 1);
-  }
-
-  return ret;
-}
-
-/**
-  * @brief  Accelerometer output from LPF2 filtering stage selection.[get]
-  *
-  * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  val    Change the values of lpf2_xl_en in reg CTRL1_XL
-  * @retval        Interface status (MANDATORY: return 0 -> no Error).
-  *
-  */
-int32_t iis3dwb_xl_filter_lp2_get(stmdev_ctx_t *ctx, uint8_t *val)
-{
-  iis3dwb_ctrl1_xl_t ctrl1_xl;
-  int32_t ret;
-
-  ret = iis3dwb_read_reg(ctx, IIS3DWB_CTRL1_XL, (uint8_t *)&ctrl1_xl, 1);
-  *val = ctrl1_xl.lpf2_xl_en;
-
-  return ret;
-}
-
-/**
   * @brief  Mask DRDY on pin (both XL & Gyro) until filter settling ends
   *         (XL and Gyro independently masked).[set]
   *
@@ -1345,16 +1301,15 @@ int32_t iis3dwb_filter_settling_mask_get(stmdev_ctx_t *ctx,
 }
 
 /**
-  * @brief  Accelerometer slope filter / high-pass filter selection
-  *         on output.[set]
+  * @brief  Accelerometer filter selection on output.[set]
   *
   * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  val    Change the values of hp_slope_xl_en in reg CTRL8_XL
+  * @param  val    Change filter selection on output.
   * @retval        Interface status (MANDATORY: return 0 -> no Error).
   *
   */
-int32_t iis3dwb_xl_hp_path_on_out_set(stmdev_ctx_t *ctx,
-                                      iis3dwb_hp_slope_xl_en_t val)
+int32_t iis3dwb_xl_filt_path_on_out_set(stmdev_ctx_t *ctx,
+                                        iis3dwb_filt_xl_en_t val)
 {
   iis3dwb_ctrl1_xl_t ctrl1_xl;
   iis3dwb_ctrl8_xl_t ctrl8_xl;
@@ -1385,16 +1340,15 @@ int32_t iis3dwb_xl_hp_path_on_out_set(stmdev_ctx_t *ctx,
 }
 
 /**
-  * @brief  Accelerometer slope filter / high-pass filter selection on
-  *         output.[get]
+  * @brief Accelerometer filter selection on output.[get]
   *
   * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  val    Get the values of hp_slope_xl_en in reg CTRL8_XL
+  * @param  val    Get filter selection on output.
   * @retval        Interface status (MANDATORY: return 0 -> no Error).
   *
   */
-int32_t iis3dwb_xl_hp_path_on_out_get(stmdev_ctx_t *ctx,
-                                      iis3dwb_hp_slope_xl_en_t *val)
+int32_t iis3dwb_xl_filt_path_on_out_get(stmdev_ctx_t *ctx,
+                                        iis3dwb_filt_xl_en_t *val)
 {
   iis3dwb_ctrl1_xl_t ctrl1_xl;
   iis3dwb_ctrl8_xl_t ctrl8_xl;
@@ -1410,8 +1364,8 @@ int32_t iis3dwb_xl_hp_path_on_out_get(stmdev_ctx_t *ctx,
   switch ((ctrl1_xl.lpf2_xl_en << 7) + (ctrl8_xl.hp_ref_mode_xl << 5) +
           (ctrl8_xl.fds << 4) + ctrl8_xl.hpcf_xl)
   {
-    case IIS3DWB_SLOPE_ODR_DIV_4:
-      *val = IIS3DWB_SLOPE_ODR_DIV_4;
+    case IIS3DWB_HP_REF_MODE:
+      *val = IIS3DWB_HP_REF_MODE;
       break;
 
     case IIS3DWB_HP_ODR_DIV_10:
@@ -1479,7 +1433,7 @@ int32_t iis3dwb_xl_hp_path_on_out_get(stmdev_ctx_t *ctx,
       break;
 
     default:
-      *val = IIS3DWB_SLOPE_ODR_DIV_4;
+      *val = IIS3DWB_HP_REF_MODE;
       break;
   }
 
