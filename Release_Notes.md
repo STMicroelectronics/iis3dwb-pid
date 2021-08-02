@@ -38,7 +38,7 @@ This directory contains the IIS3DWB component drivers.
 
 ### First release
 
-- First official release
+- First official release [ref. DS v4.0]
 
 ##
 
