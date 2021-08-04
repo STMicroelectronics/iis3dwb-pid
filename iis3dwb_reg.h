@@ -878,6 +878,7 @@ int32_t iis3dwb_filter_settling_mask_get(stmdev_ctx_t *ctx,
 
 typedef enum
 {
+  IIS3DWB_SLOPE_ODR_DIV_4           = 0x10,
   IIS3DWB_HP_REF_MODE               = 0x37,
   IIS3DWB_HP_ODR_DIV_10             = 0x11,
   IIS3DWB_HP_ODR_DIV_20             = 0x12,
