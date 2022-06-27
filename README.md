@@ -5,7 +5,7 @@ Sensor driver for IIS3DWB sensor written in C programming language. This reposit
 In order to `clone` the complete content of the repository folder, use the command:
 
 ```
-git clone https://github.com/STMicroelectronics/IIS3DWB/
+git clone https://github.com/STMicroelectronics/IIS3DWB-PID/
 ```
 
 Some examples of driver usage can be found [here](https://github.com/STMicroelectronics/STMems_Standard_C_drivers).
