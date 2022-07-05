@@ -84,6 +84,26 @@ int32_t iis3dwb_write_reg(stmdev_ctx_t *ctx, uint8_t reg,
   */
 
 /**
+  * @defgroup  Private functions
+  * @brief     Section collect all the utility functions needed by APIs.
+  * @{
+  *
+  */
+
+static void bytecpy(uint8_t *target, uint8_t *source)
+{
+  if ((target != NULL) && (source != NULL))
+  {
+    *target = *source;
+  }
+}
+
+/**
+  * @}
+  *
+  */
+
+/**
   * @defgroup    IIS3DWB_Sensitivity
   * @brief       These functions convert raw-data into engineering units.
   * @{
@@ -890,11 +910,64 @@ int32_t iis3dwb_acceleration_raw_get(stmdev_ctx_t *ctx, int16_t *val)
   * @retval        Interface status (MANDATORY: return 0 -> no Error).
   *
   */
-int32_t iis3dwb_fifo_out_raw_get(stmdev_ctx_t *ctx, uint8_t *buff)
+int32_t iis3dwb_fifo_out_raw_get(stmdev_ctx_t *ctx, iis3dwb_fifo_out_raw_t *val)
+{
+  iis3dwb_fifo_data_out_tag_t fifo_data_out_tag;
+  uint8_t buff[7];
+  int32_t ret;
+
+  ret = iis3dwb_read_reg(ctx, IIS3DWB_FIFO_DATA_OUT_TAG, buff,
+                         sizeof(iis3dwb_fifo_out_raw_t));
+  bytecpy((uint8_t*)&fifo_data_out_tag, &buff[0]);
+
+  switch (fifo_data_out_tag.tag_sensor)
+  {
+    case IIS3DWB_XL_TAG:
+      val->tag = IIS3DWB_XL_TAG;
+      break;
+
+    case IIS3DWB_TEMPERATURE_TAG:
+      val->tag = IIS3DWB_TEMPERATURE_TAG;
+      break;
+
+    case IIS3DWB_TIMESTAMP_TAG:
+      val->tag = IIS3DWB_TIMESTAMP_TAG;
+      break;
+
+    default:
+      val->tag = IIS3DWB_XL_TAG;
+      break;
+  }
+
+  val->data[0] = buff[1];
+  val->data[1] = buff[2];
+  val->data[2] = buff[3];
+  val->data[3] = buff[4];
+  val->data[4] = buff[5];
+  val->data[5] = buff[6];
+
+  return ret;
+}
+
+/**
+  * @brief  FIFO data multi output.[get]
+  *
+  * @param  ctx    Read / write interface definitions.(ptr)
+  * @param  buff   Buffer that stores data read
+  * @param  num    Number of FIFO entries to be read
+  * @retval        Interface status (MANDATORY: return 0 -> no Error).
+  *
+  */
+int32_t iis3dwb_fifo_out_multi_raw_get(stmdev_ctx_t *ctx,
+                                       iis3dwb_fifo_out_raw_t *fdata,
+                                       uint16_t num)
 {
   int32_t ret;
 
-  ret = iis3dwb_read_reg(ctx, IIS3DWB_FIFO_DATA_OUT_X_L, buff, 6);
+  /* read out all FIFO entries in a single read */
+  ret = iis3dwb_read_reg(ctx, IIS3DWB_FIFO_DATA_OUT_TAG,
+                         (uint8_t *)fdata,
+                         sizeof(iis3dwb_fifo_out_raw_t) * num);
 
   return ret;
 }
@@ -2819,8 +2892,8 @@ int32_t iis3dwb_fifo_temp_batch_get(stmdev_ctx_t *ctx,
   * @retval        Interface status (MANDATORY: return 0 -> no Error).
   *
   */
-int32_t iis3dwb_fifo_timestamp_decimation_set(stmdev_ctx_t *ctx,
-                                              iis3dwb_odr_ts_batch_t val)
+int32_t iis3dwb_fifo_timestamp_batch_set(stmdev_ctx_t *ctx,
+                                         iis3dwb_fifo_timestamp_batch_t val)
 {
   iis3dwb_fifo_ctrl4_t fifo_ctrl4;
   int32_t ret;
@@ -2849,8 +2922,8 @@ int32_t iis3dwb_fifo_timestamp_decimation_set(stmdev_ctx_t *ctx,
   * @retval        Interface status (MANDATORY: return 0 -> no Error).
   *
   */
-int32_t iis3dwb_fifo_timestamp_decimation_get(stmdev_ctx_t *ctx,
-                                              iis3dwb_odr_ts_batch_t *val)
+int32_t iis3dwb_fifo_timestamp_batch_get(stmdev_ctx_t *ctx,
+                                         iis3dwb_fifo_timestamp_batch_t *val)
 {
   iis3dwb_fifo_ctrl4_t fifo_ctrl4;
   int32_t ret;
@@ -3038,11 +3111,22 @@ int32_t iis3dwb_fifo_data_level_get(stmdev_ctx_t *ctx, uint16_t *val)
   *
   */
 int32_t iis3dwb_fifo_status_get(stmdev_ctx_t *ctx,
-                                iis3dwb_fifo_status2_t *val)
+                                iis3dwb_fifo_status_t *val)
 {
+  uint8_t buff[2];
+  iis3dwb_fifo_status2_t status;
   int32_t ret;
 
-  ret = iis3dwb_read_reg(ctx, IIS3DWB_FIFO_STATUS2, (uint8_t *)val, 1);
+  ret = iis3dwb_read_reg(ctx, IIS3DWB_FIFO_STATUS1, (uint8_t *)&buff[0], 2);
+  bytecpy((uint8_t *)&status, &buff[1]);
+
+  val->fifo_bdr = status.counter_bdr_ia;
+  val->fifo_ovr = status.fifo_ovr_ia;
+  val->fifo_full = status.fifo_full_ia;
+  val->fifo_th = status.fifo_wtm_ia;
+
+  val->fifo_level = (uint16_t)buff[1] & 0x03U;
+  val->fifo_level = (val->fifo_level * 256U) + buff[0];
 
   return ret;
 }
@@ -3104,45 +3188,6 @@ int32_t iis3dwb_fifo_wtm_flag_get(stmdev_ctx_t *ctx, uint8_t *val)
   ret = iis3dwb_read_reg(ctx, IIS3DWB_FIFO_STATUS2,
                          (uint8_t *)&fifo_status2, 1);
   *val = fifo_status2.fifo_wtm_ia;
-
-  return ret;
-}
-
-/**
-  * @brief  Identifies the sensor in FIFO_DATA_OUT.[get]
-  *
-  * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  val    Change the values of tag_sensor in reg FIFO_DATA_OUT_TAG
-  * @retval        Interface status (MANDATORY: return 0 -> no Error).
-  *
-  */
-int32_t iis3dwb_fifo_sensor_tag_get(stmdev_ctx_t *ctx,
-                                    iis3dwb_fifo_tag_t *val)
-{
-  iis3dwb_fifo_data_out_tag_t fifo_data_out_tag;
-  int32_t ret;
-
-  ret = iis3dwb_read_reg(ctx, IIS3DWB_FIFO_DATA_OUT_TAG,
-                         (uint8_t *)&fifo_data_out_tag, 1);
-
-  switch (fifo_data_out_tag.tag_sensor)
-  {
-    case IIS3DWB_XL_TAG:
-      *val = IIS3DWB_XL_TAG;
-      break;
-
-    case IIS3DWB_TEMPERATURE_TAG:
-      *val = IIS3DWB_TEMPERATURE_TAG;
-      break;
-
-    case IIS3DWB_TIMESTAMP_TAG:
-      *val = IIS3DWB_TIMESTAMP_TAG;
-      break;
-
-    default:
-      *val = IIS3DWB_XL_TAG;
-      break;
-  }
 
   return ret;
 }

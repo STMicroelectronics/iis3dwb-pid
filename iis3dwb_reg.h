@@ -834,8 +834,6 @@ int32_t iis3dwb_temperature_raw_get(stmdev_ctx_t *ctx, int16_t *val);
 
 int32_t iis3dwb_acceleration_raw_get(stmdev_ctx_t *ctx, int16_t *val);
 
-int32_t iis3dwb_fifo_out_raw_get(stmdev_ctx_t *ctx, uint8_t *buff);
-
 int32_t iis3dwb_odr_cal_reg_set(stmdev_ctx_t *ctx, uint8_t val);
 int32_t iis3dwb_odr_cal_reg_get(stmdev_ctx_t *ctx, uint8_t *val);
 
@@ -1081,11 +1079,11 @@ typedef enum
   IIS3DWB_DEC_1         = 1,
   IIS3DWB_DEC_8         = 2,
   IIS3DWB_DEC_32        = 3,
-} iis3dwb_odr_ts_batch_t;
-int32_t iis3dwb_fifo_timestamp_decimation_set(stmdev_ctx_t *ctx,
-                                              iis3dwb_odr_ts_batch_t val);
-int32_t iis3dwb_fifo_timestamp_decimation_get(stmdev_ctx_t *ctx,
-                                              iis3dwb_odr_ts_batch_t *val);
+} iis3dwb_fifo_timestamp_batch_t;
+int32_t iis3dwb_fifo_timestamp_batch_set(stmdev_ctx_t *ctx,
+                                              iis3dwb_fifo_timestamp_batch_t val);
+int32_t iis3dwb_fifo_timestamp_batch_get(stmdev_ctx_t *ctx,
+                                              iis3dwb_fifo_timestamp_batch_t *val);
 
 int32_t iis3dwb_rst_batch_counter_set(stmdev_ctx_t *ctx, uint8_t val);
 int32_t iis3dwb_rst_batch_counter_get(stmdev_ctx_t *ctx,
@@ -1098,8 +1096,16 @@ int32_t iis3dwb_batch_counter_threshold_get(stmdev_ctx_t *ctx,
 
 int32_t iis3dwb_fifo_data_level_get(stmdev_ctx_t *ctx, uint16_t *val);
 
+typedef struct
+{
+  uint16_t fifo_level : 10;
+  uint8_t fifo_bdr : 1;
+  uint8_t fifo_full : 1;
+  uint8_t fifo_ovr : 1;
+  uint8_t fifo_th : 1;
+} iis3dwb_fifo_status_t;
 int32_t iis3dwb_fifo_status_get(stmdev_ctx_t *ctx,
-                                iis3dwb_fifo_status2_t *val);
+                                iis3dwb_fifo_status_t *val);
 
 int32_t iis3dwb_fifo_full_flag_get(stmdev_ctx_t *ctx, uint8_t *val);
 
@@ -1107,14 +1113,20 @@ int32_t iis3dwb_fifo_ovr_flag_get(stmdev_ctx_t *ctx, uint8_t *val);
 
 int32_t iis3dwb_fifo_wtm_flag_get(stmdev_ctx_t *ctx, uint8_t *val);
 
-typedef enum
+typedef struct
 {
-  IIS3DWB_XL_TAG = 2,
-  IIS3DWB_TEMPERATURE_TAG,
-  IIS3DWB_TIMESTAMP_TAG,
-} iis3dwb_fifo_tag_t;
-int32_t iis3dwb_fifo_sensor_tag_get(stmdev_ctx_t *ctx,
-                                    iis3dwb_fifo_tag_t *val);
+  enum
+ {
+    IIS3DWB_XL_TAG = 2,
+    IIS3DWB_TEMPERATURE_TAG,
+    IIS3DWB_TIMESTAMP_TAG,
+  } tag;
+  uint8_t data[6];
+} iis3dwb_fifo_out_raw_t;
+int32_t iis3dwb_fifo_out_raw_get(stmdev_ctx_t *ctx, iis3dwb_fifo_out_raw_t *val);
+int32_t iis3dwb_fifo_out_multi_raw_get(stmdev_ctx_t *ctx,
+                                       iis3dwb_fifo_out_raw_t *fdata,
+                                       uint16_t num);
 
 /**
   *@}
