@@ -520,7 +520,7 @@ typedef struct
 #if DRV_BYTE_ORDER == DRV_LITTLE_ENDIAN
   uint8_t diff_fifo                : 2;
   uint8_t not_used_01              : 1;
-  uint8_t over_run_latched         : 1;
+  uint8_t fifo_ovr_latched         : 1;
   uint8_t counter_bdr_ia           : 1;
   uint8_t fifo_full_ia             : 1;
   uint8_t fifo_ovr_ia              : 1;
@@ -530,7 +530,7 @@ typedef struct
   uint8_t fifo_ovr_ia              : 1;
   uint8_t fifo_full_ia             : 1;
   uint8_t counter_bdr_ia           : 1;
-  uint8_t over_run_latched         : 1;
+  uint8_t fifo_ovr_latched         : 1;
   uint8_t not_used_01              : 1;
   uint8_t diff_fifo                : 2;
 #endif /* DRV_BYTE_ORDER */
@@ -1106,12 +1106,6 @@ typedef struct
 } iis3dwb_fifo_status_t;
 int32_t iis3dwb_fifo_status_get(stmdev_ctx_t *ctx,
                                 iis3dwb_fifo_status_t *val);
-
-int32_t iis3dwb_fifo_full_flag_get(stmdev_ctx_t *ctx, uint8_t *val);
-
-int32_t iis3dwb_fifo_ovr_flag_get(stmdev_ctx_t *ctx, uint8_t *val);
-
-int32_t iis3dwb_fifo_wtm_flag_get(stmdev_ctx_t *ctx, uint8_t *val);
 
 typedef struct
 {

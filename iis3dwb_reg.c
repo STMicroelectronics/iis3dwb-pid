@@ -3121,7 +3121,7 @@ int32_t iis3dwb_fifo_status_get(stmdev_ctx_t *ctx,
   bytecpy((uint8_t *)&status, &buff[1]);
 
   val->fifo_bdr = status.counter_bdr_ia;
-  val->fifo_ovr = status.fifo_ovr_ia;
+  val->fifo_ovr = status.fifo_ovr_ia | status.fifo_ovr_latched;
   val->fifo_full = status.fifo_full_ia;
   val->fifo_th = status.fifo_wtm_ia;
 
@@ -3130,72 +3130,6 @@ int32_t iis3dwb_fifo_status_get(stmdev_ctx_t *ctx,
 
   return ret;
 }
-
-/**
-  * @brief  Smart FIFO full status.[get]
-  *
-  * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  val    Change the values of fifo_full_ia in reg FIFO_STATUS2
-  * @retval        Interface status (MANDATORY: return 0 -> no Error).
-  *
-  */
-int32_t iis3dwb_fifo_full_flag_get(stmdev_ctx_t *ctx, uint8_t *val)
-{
-  iis3dwb_fifo_status2_t fifo_status2;
-  int32_t ret;
-
-  ret = iis3dwb_read_reg(ctx, IIS3DWB_FIFO_STATUS2,
-                         (uint8_t *)&fifo_status2, 1);
-  *val = fifo_status2.fifo_full_ia;
-
-  return ret;
-}
-
-/**
-  * @brief  FIFO overrun status.[get]
-  *
-  * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  val    Change the values of  fifo_over_run_latched in
-  *                reg FIFO_STATUS2
-  * @retval        Interface status (MANDATORY: return 0 -> no Error).
-  *
-  */
-int32_t iis3dwb_fifo_ovr_flag_get(stmdev_ctx_t *ctx, uint8_t *val)
-{
-  iis3dwb_fifo_status2_t fifo_status2;
-  int32_t ret;
-
-  ret = iis3dwb_read_reg(ctx, IIS3DWB_FIFO_STATUS2,
-                         (uint8_t *)&fifo_status2, 1);
-  *val = fifo_status2. fifo_ovr_ia;
-
-  return ret;
-}
-
-/**
-  * @brief  FIFO watermark status.[get]
-  *
-  * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  val    Change the values of fifo_wtm_ia in reg FIFO_STATUS2
-  * @retval        Interface status (MANDATORY: return 0 -> no Error).
-  *
-  */
-int32_t iis3dwb_fifo_wtm_flag_get(stmdev_ctx_t *ctx, uint8_t *val)
-{
-  iis3dwb_fifo_status2_t fifo_status2;
-  int32_t ret;
-
-  ret = iis3dwb_read_reg(ctx, IIS3DWB_FIFO_STATUS2,
-                         (uint8_t *)&fifo_status2, 1);
-  *val = fifo_status2.fifo_wtm_ia;
-
-  return ret;
-}
-
-/**
-  * @}
-  *
-  */
 
 /**
   * @}
