@@ -1110,14 +1110,16 @@ typedef struct
 int32_t iis3dwb_fifo_status_get(stmdev_ctx_t *ctx,
                                 iis3dwb_fifo_status_t *val);
 
+typedef enum
+{
+  IIS3DWB_XL_TAG = 2,
+  IIS3DWB_TEMPERATURE_TAG,
+  IIS3DWB_TIMESTAMP_TAG,
+} iis3dwb_fifo_tag_t;
+ 
 typedef struct
 {
-  enum
- {
-    IIS3DWB_XL_TAG = 2,
-    IIS3DWB_TEMPERATURE_TAG,
-    IIS3DWB_TIMESTAMP_TAG,
-  } tag;
+  uint8_t tag;
   uint8_t data[6];
 } iis3dwb_fifo_out_raw_t;
 int32_t iis3dwb_fifo_out_raw_get(stmdev_ctx_t *ctx, iis3dwb_fifo_out_raw_t *val);
