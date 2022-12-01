@@ -84,26 +84,6 @@ int32_t iis3dwb_write_reg(stmdev_ctx_t *ctx, uint8_t reg,
   */
 
 /**
-  * @defgroup  Private functions
-  * @brief     Section collect all the utility functions needed by APIs.
-  * @{
-  *
-  */
-
-static void bytecpy(uint8_t *target, uint8_t *source)
-{
-  if ((target != NULL) && (source != NULL))
-  {
-    *target = *source;
-  }
-}
-
-/**
-  * @}
-  *
-  */
-
-/**
   * @defgroup    IIS3DWB_Sensitivity
   * @brief       These functions convert raw-data into engineering units.
   * @{
@@ -918,7 +898,7 @@ int32_t iis3dwb_fifo_out_raw_get(stmdev_ctx_t *ctx, iis3dwb_fifo_out_raw_t *val)
 
   ret = iis3dwb_read_reg(ctx, IIS3DWB_FIFO_DATA_OUT_TAG, buff,
                          sizeof(iis3dwb_fifo_out_raw_t));
-  bytecpy((uint8_t*)&fifo_data_out_tag, &buff[0]);
+  fifo_data_out_tag = buff[0];
 
   switch (fifo_data_out_tag.tag_sensor)
   {
@@ -3118,7 +3098,7 @@ int32_t iis3dwb_fifo_status_get(stmdev_ctx_t *ctx,
   int32_t ret;
 
   ret = iis3dwb_read_reg(ctx, IIS3DWB_FIFO_STATUS1, (uint8_t *)&buff[0], 2);
-  bytecpy((uint8_t *)&status, &buff[1]);
+  status = buff[1];
 
   val->fifo_bdr = status.counter_bdr_ia;
   val->fifo_ovr = status.fifo_ovr_ia | status.fifo_ovr_latched;
