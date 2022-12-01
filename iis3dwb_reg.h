@@ -667,6 +667,13 @@ typedef struct
 #define IIS3DWB_FIFO_DATA_OUT_Z_L            0x7DU
 #define IIS3DWB_FIFO_DATA_OUT_Z_H            0x7EU
 
+typedef enum
+{
+  IIS3DWB_XL_TAG = 2,
+  IIS3DWB_TEMPERATURE_TAG,
+  IIS3DWB_TIMESTAMP_TAG,
+} iis3dwb_fifo_tag_sensor_t;
+ 
 /**
   * @defgroup IIS3DWB_Register_Union
   * @brief    This union group all the registers having a bit-field
@@ -1110,13 +1117,6 @@ typedef struct
 int32_t iis3dwb_fifo_status_get(stmdev_ctx_t *ctx,
                                 iis3dwb_fifo_status_t *val);
 
-typedef enum
-{
-  IIS3DWB_XL_TAG = 2,
-  IIS3DWB_TEMPERATURE_TAG,
-  IIS3DWB_TIMESTAMP_TAG,
-} iis3dwb_fifo_tag_t;
- 
 typedef struct
 {
   uint8_t tag;
