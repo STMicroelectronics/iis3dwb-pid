@@ -892,13 +892,11 @@ int32_t iis3dwb_acceleration_raw_get(stmdev_ctx_t *ctx, int16_t *val)
   */
 int32_t iis3dwb_fifo_out_raw_get(stmdev_ctx_t *ctx, iis3dwb_fifo_out_raw_t *val)
 {
-  iis3dwb_fifo_data_out_tag_t fifo_data_out_tag;
   uint8_t buff[7];
-  int32_t ret;
 
-  ret = iis3dwb_read_reg(ctx, IIS3DWB_FIFO_DATA_OUT_TAG, buff,
+  const int32_t ret = iis3dwb_read_reg(ctx, IIS3DWB_FIFO_DATA_OUT_TAG, buff,
                          sizeof(iis3dwb_fifo_out_raw_t));
-  fifo_data_out_tag = buff[0];
+  const iis3dwb_fifo_data_out_tag_t fifo_data_out_tag = buff[0];
 
   switch (fifo_data_out_tag.tag_sensor)
   {
