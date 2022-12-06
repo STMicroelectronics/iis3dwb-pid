@@ -766,7 +766,7 @@ int32_t iis3dwb_timestamp_get(stmdev_ctx_t *ctx, uint8_t *val)
   *         is 25 μs.[get]
   *
   * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  buff   Buffer that stores data read
+  * @param  val    Buffer that stores data read
   * @retval        Interface status (MANDATORY: return 0 -> no Error).
   *
   */
@@ -861,7 +861,7 @@ int32_t iis3dwb_rounding_mode_get(stmdev_ctx_t *ctx,
   *         complement.[get]
   *
   * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  buff   Buffer that stores data read
+  * @param  val    Buffer that stores data read
   * @retval        Interface status (MANDATORY: return 0 -> no Error).
   *
   */
@@ -882,7 +882,7 @@ int32_t iis3dwb_temperature_raw_get(stmdev_ctx_t *ctx, int16_t *val)
   *         16-bit word in two’s complement.[get]
   *
   * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  buff   Buffer that stores data read
+  * @param  val    Buffer that stores data read
   * @retval        Interface status (MANDATORY: return 0 -> no Error).
   *
   */
@@ -906,7 +906,7 @@ int32_t iis3dwb_acceleration_raw_get(stmdev_ctx_t *ctx, int16_t *val)
   * @brief  FIFO data output.[get]
   *
   * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  buff   Buffer that stores data read
+  * @param  val    Buffer that stores data read
   * @retval        Interface status (MANDATORY: return 0 -> no Error).
   *
   */
@@ -923,7 +923,7 @@ int32_t iis3dwb_fifo_out_raw_get(stmdev_ctx_t *ctx, iis3dwb_fifo_out_raw_t *val)
   * @brief  FIFO data multi output.[get]
   *
   * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  buff   Buffer that stores data read
+  * @param  fdata  Buffer that stores data read
   * @param  num    Number of FIFO entries to be read
   * @retval        Interface status (MANDATORY: return 0 -> no Error).
   *
