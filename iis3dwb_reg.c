@@ -3115,7 +3115,7 @@ int32_t iis3dwb_fifo_data_level_get(stmdev_ctx_t *ctx, uint16_t *val)
   * @brief  Smart FIFO status.[get]
   *
   * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  val    Registers FIFO_STATUS2
+  * @param  val    Registers FIFO_STATUS1 and FIFO_STATUS2
   * @retval        Interface status (MANDATORY: return 0 -> no Error).
   *
   */
