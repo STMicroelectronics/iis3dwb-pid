@@ -18,6 +18,7 @@
   */
 
 #include "iis3dwb_reg.h"
+#include <string.h>
 
 /**
   * @defgroup    IIS3DWB

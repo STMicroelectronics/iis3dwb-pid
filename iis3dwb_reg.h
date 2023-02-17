@@ -751,7 +751,7 @@ extern float_t iis3dwb_from_lsb_to_nsec(int32_t lsb);
 typedef enum
 {
   IIS3DWB_2g   = 0,
-  IIS3DWB_16g  = 1, /* if XL_FS_MODE = ‘1’ -> IIS3DWB_2g */
+  IIS3DWB_16g  = 1, /* if XL_FS_MODE = '1' -> IIS3DWB_2g */
   IIS3DWB_4g   = 2,
   IIS3DWB_8g   = 3,
 } iis3dwb_fs_xl_t;
@@ -985,8 +985,7 @@ typedef struct
   uint8_t fifo_bdr      : 1; /* FIFO Batch counter threshold reached */
   uint8_t timestamp     : 1; /* timestamp overflow */
   uint8_t wake_up       : 1; /* wake up event */
-uint8_t sleep_change  :
-  1; /* Act/Inact (or Vice-versa) status changed */
+  uint8_t sleep_change  : 1; /* Act/Inact (or Vice-versa) status changed */
   uint8_t sleep_status  : 1; /* Act/Inact status */
 } iis3dwb_pin_int2_route_t;
 int32_t iis3dwb_pin_int2_route_set(stmdev_ctx_t *ctx,
