@@ -410,6 +410,19 @@ typedef struct
   uint8_t xl_axis_sel              : 2;
 #endif /* DRV_BYTE_ORDER */
 } iis3dwb_ctrl6_c_t;
+#define IIS3DWB_CTRL7_C                      0x16U
+typedef struct
+{
+#if DRV_BYTE_ORDER == DRV_LITTLE_ENDIAN
+  uint8_t not_used_01               : 1;
+  uint8_t usr_off_on_out            : 1;
+  uint8_t not_used_02               : 6;
+#elif DRV_BYTE_ORDER == DRV_BIG_ENDIAN
+  uint8_t not_used_02               : 6;
+  uint8_t usr_off_on_out            : 1;
+  uint8_t not_used_01               : 1;
+#endif /* DRV_BYTE_ORDER */
+} iis3dwb_ctrl7_c_t;
 
 #define IIS3DWB_CTRL8_XL                     0x17U
 typedef struct
@@ -695,6 +708,7 @@ typedef union
   iis3dwb_ctrl4_c_t                       ctrl4_c;
   iis3dwb_ctrl5_c_t                       ctrl5_c;
   iis3dwb_ctrl6_c_t                       ctrl6_c;
+  iis3dwb_ctrl7_c_t                       ctrl7_c;
   iis3dwb_ctrl8_xl_t                      ctrl8_xl;
   iis3dwb_ctrl10_c_t                      ctrl10_c;
   iis3dwb_all_int_src_t                   all_int_src;
@@ -816,6 +830,9 @@ int32_t iis3dwb_xl_flag_data_ready_get(stmdev_ctx_t *ctx,
 
 int32_t iis3dwb_temp_flag_data_ready_get(stmdev_ctx_t *ctx,
                                          uint8_t *val);
+
+int32_t iis3dwb_usr_offset_block_set(stmdev_ctx_t *ctx, uint8_t val);
+int32_t iis3dwb_usr_offset_block_get(stmdev_ctx_t *ctx, uint8_t *val);
 
 int32_t iis3dwb_xl_usr_offset_x_set(stmdev_ctx_t *ctx, uint8_t *buff);
 int32_t iis3dwb_xl_usr_offset_x_get(stmdev_ctx_t *ctx, uint8_t *buff);
