@@ -555,6 +555,50 @@ int32_t iis3dwb_temp_flag_data_ready_get(stmdev_ctx_t *ctx,
 }
 
 /**
+  * @brief  Enables the accelerometer user offset correction block, can be enabled 
+  * by setting the USR_OFF_ON_OUT bit of the CTRL7_C register.[set]
+  *
+  * @param  ctx    Read / write interface definitions.(ptr)
+  * @param  val    Change the values of USR_OFF_ON_OUT in reg CTRL7_C
+  * @retval        Interface status (MANDATORY: return 0 -> no Error).
+  *
+  */
+int32_t iis3dwb_usr_offset_block_set(stmdev_ctx_t *ctx, uint8_t val)
+{
+  iis3dwb_ctrl7_c_t ctrl7_c;
+
+  int32_t ret = iis3dwb_read_reg(ctx, IIS3DWB_CTRL7_C, (uint8_t *)&ctrl7_c, 1);
+
+  if (ret == 0)
+  {
+    ctrl7_c.usr_off_on_out = (uint8_t)val;
+    ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL7_C,
+                            (uint8_t *)&ctrl7_c, 1);
+  }
+
+  return ret;
+}
+
+/**
+  * @brief  Enables the accelerometer user offset correction block, can be enabled 
+  * by setting the USR_OFF_ON_OUT bit of the CTRL7_C register.[get]
+  *
+  * @param  ctx    Read / write interface definitions.(ptr)
+  * @param  val    Change the values of USR_OFF_ON_OUT in reg CTRL7_C
+  * @retval        Interface status (MANDATORY: return 0 -> no Error).
+  *
+  */
+int32_t iis3dwb_usr_offset_block_get(stmdev_ctx_t *ctx, uint8_t *val)
+{
+  iis3dwb_ctrl7_c_t ctrl7_c;
+
+  const int32_t ret = iis3dwb_read_reg(ctx, IIS3DWB_CTRL7_C, (uint8_t *)&ctrl7_c, 1);
+  *val = ctrl7_c.usr_off_on_out;
+
+  return ret;
+}
+
+/**
   * @brief  Accelerometer X-axis user offset correction expressed in two’s
   *         complement, weight depends on USR_OFF_W in CTRL6_C (15h).
   *         The value must be in the range [-127 127].[set]
