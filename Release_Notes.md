@@ -44,7 +44,7 @@ This directory contains the IIS3DWB component drivers.
 
 </div>
 
-<input type="checkbox" id="collapse-section2" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section2" aria-hidden="true">
 <label for="collapse-section2" aria-hidden="true">V1.1.0 / 01-June-2023</label>
 <div>
 
@@ -61,6 +61,18 @@ This directory contains the IIS3DWB component drivers.
 - iis3dwb driver: improve FIFO routines and data
 - repo name changed adding '-pid' extension.
 - Fixed filt_xl_en_t #4
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section3" checked aria-hidden="true">
+<label for="collapse-section3" aria-hidden="true">V1.1.1 / 24-July-2023</label>
+<div>
+
+## Main changes
+
+- added user offset correction block (Fix: #15)
 
 ##
 
