@@ -1116,10 +1116,10 @@ int32_t iis3dwb_device_id_get(stmdev_ctx_t *ctx, uint8_t *buff)
 }
 
 /**
-  * @brief  Software reset. Restore the default values in user registers.[set]
+  * @brief  Software reset.[set]
   *
   * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  val    Change the values of sw_reset in reg CTRL3_C
+  * @param  val    Value of sw_reset in reg CTRL3_C
   * @retval        Interface status (MANDATORY: return 0 -> no Error).
   *
   */
@@ -1139,10 +1139,10 @@ int32_t iis3dwb_reset_set(stmdev_ctx_t *ctx, uint8_t val)
 }
 
 /**
-  * @brief  Software reset. Restore the default values in user registers.[get]
+  * @brief  Software reset.[get]
   *
   * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  val    Change the values of sw_reset in reg CTRL3_C
+  * @param  val    Value of sw_reset in reg CTRL3_C
   * @retval        Interface status (MANDATORY: return 0 -> no Error).
   *
   */
@@ -1200,10 +1200,10 @@ int32_t iis3dwb_auto_increment_get(stmdev_ctx_t *ctx, uint8_t *val)
 }
 
 /**
-  * @brief  Reboot memory content. Reload the calibration parameters.[set]
+  * @brief  Reboot memory content.[set]
   *
   * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  val    Change the values of boot in reg CTRL3_C
+  * @param  val    Value of boot in reg CTRL3_C
   * @retval        Interface status (MANDATORY: return 0 -> no Error).
   *
   */
@@ -1223,10 +1223,10 @@ int32_t iis3dwb_boot_set(stmdev_ctx_t *ctx, uint8_t val)
 }
 
 /**
-  * @brief  Reboot memory content. Reload the calibration parameters.[get]
+  * @brief  Reboot memory content.[get]
   *
   * @param  ctx    Read / write interface definitions.(ptr)
-  * @param  val    Change the values of boot in reg CTRL3_C
+  * @param  val    Value of boot in reg CTRL3_C
   * @retval        Interface status (MANDATORY: return 0 -> no Error).
   *
   */
