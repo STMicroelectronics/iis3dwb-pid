@@ -990,7 +990,7 @@ uint8_t sleep_change  :
   uint8_t sleep_status  : 1; /* Act/Inact status */
 } iis3dwb_pin_int1_route_t;
 int32_t iis3dwb_pin_int1_route_set(const stmdev_ctx_t *ctx,
-                                   iis3dwb_pin_int1_route_t *val);
+                                   const iis3dwb_pin_int1_route_t *val);
 int32_t iis3dwb_pin_int1_route_get(const stmdev_ctx_t *ctx,
                                    iis3dwb_pin_int1_route_t *val);
 
@@ -1008,7 +1008,7 @@ typedef struct
   uint8_t sleep_status  : 1; /* Act/Inact status */
 } iis3dwb_pin_int2_route_t;
 int32_t iis3dwb_pin_int2_route_set(const stmdev_ctx_t *ctx,
-                                   iis3dwb_pin_int2_route_t *val);
+                                   const iis3dwb_pin_int2_route_t *val);
 int32_t iis3dwb_pin_int2_route_get(const stmdev_ctx_t *ctx,
                                    iis3dwb_pin_int2_route_t *val);
 
