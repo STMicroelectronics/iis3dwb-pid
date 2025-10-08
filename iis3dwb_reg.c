@@ -1853,7 +1853,7 @@ int32_t iis3dwb_i2c_interface_get(const stmdev_ctx_t *ctx,
   *
   */
 int32_t iis3dwb_pin_int1_route_set(const stmdev_ctx_t *ctx,
-                                   iis3dwb_pin_int1_route_t *val)
+                                   const iis3dwb_pin_int1_route_t *val)
 {
   iis3dwb_int1_ctrl_t          int1_ctrl;
   iis3dwb_slope_en_t           slope_en;
@@ -1946,7 +1946,7 @@ int32_t iis3dwb_pin_int1_route_get(const stmdev_ctx_t *ctx,
   *
   */
 int32_t iis3dwb_pin_int2_route_set(const stmdev_ctx_t *ctx,
-                                   iis3dwb_pin_int2_route_t *val)
+                                   const iis3dwb_pin_int2_route_t *val)
 {
   iis3dwb_int2_ctrl_t          int2_ctrl;
   iis3dwb_slope_en_t           slope_en;
