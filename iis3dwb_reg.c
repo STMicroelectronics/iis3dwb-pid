@@ -20,7 +20,7 @@
 #include <string.h>
 
 /**
-  * @defgroup    IIS3DWB
+  * @defgroup    IIS3DWB IIS3DWB Driver
   * @brief       This file provides a set of functions needed to drive the
   *              iis3dwb enhanced inertial module.
   * @{
@@ -28,7 +28,7 @@
   */
 
 /**
-  * @defgroup    IIS3DWB_Interfaces_Functions
+  * @defgroup    IIS3DWB_Interfaces_Functions Interface Functions
   * @brief       This section provide a set of functions used to read and
   *              write a generic register of the device.
   *              MANDATORY: return 0 -> no Error.
@@ -86,7 +86,7 @@ int32_t __weak iis3dwb_write_reg(const stmdev_ctx_t *ctx, uint8_t reg,
   */
 
 /**
-  * @defgroup  Private functions
+  * @defgroup  IIS3DWB_private Private Driver Functions
   * @brief     Section collect all the utility functions needed by APIs.
   * @{
   *
@@ -106,7 +106,7 @@ static void bytecpy(uint8_t *target, const uint8_t *source)
   */
 
 /**
-  * @defgroup    IIS3DWB_Sensitivity
+  * @defgroup    IIS3DWB_Sensitivity Sensitivity Conversion Functions
   * @brief       These functions convert raw-data into engineering units.
   * @{
   *
@@ -148,7 +148,7 @@ float_t iis3dwb_from_lsb_to_nsec(int32_t lsb)
   */
 
 /**
-  * @defgroup   LSM9DS1_Data_generation
+  * @defgroup   IIS3DWB_Data_generation Data Generation
   * @brief      This section groups all the functions concerning data
   *             generation
   * @{
@@ -752,7 +752,7 @@ int32_t iis3dwb_xl_usr_offset_z_get(const stmdev_ctx_t *ctx, uint8_t *buff)
   */
 
 /**
-  * @defgroup   IIS3DWB_Timestamp
+  * @defgroup   IIS3DWB_Timestamp Timestamp Generation
   * @brief      This section groups all the functions that manage the
   *             timestamp generation.
   * @{
@@ -853,7 +853,7 @@ int32_t iis3dwb_timestamp_raw_get(const stmdev_ctx_t *ctx, uint32_t *val)
   */
 
 /**
-  * @defgroup   IIS3DWB_Data output
+  * @defgroup   IIS3DWB_Data Data Output
   * @brief      This section groups all the data output functions.
   * @{
   *
@@ -1059,7 +1059,7 @@ int32_t iis3dwb_fifo_sensor_tag_get(const stmdev_ctx_t *ctx,
   */
 
 /**
-  * @defgroup   IIS3DWB_common
+  * @defgroup   IIS3DWB_common Common Useful Functions
   * @brief      This section groups common useful functions.
   * @{
   *
@@ -1414,7 +1414,7 @@ int32_t iis3dwb_xl_self_test_get(const stmdev_ctx_t *ctx,
   */
 
 /**
-  * @defgroup   IIS3DWB_filters
+  * @defgroup   IIS3DWB_filters Filters Configuration
   * @brief      This section group all the functions concerning the
   *             filters configuration
   * @{
@@ -1736,7 +1736,7 @@ int32_t iis3dwb_xl_hp_path_internal_get(const stmdev_ctx_t *ctx,
   */
 
 /**
-  * @defgroup   IIS3DWB_ main_serial_interface
+  * @defgroup   IIS3DWB_main_serial_interface Main Serial Interface Management
   * @brief      This section groups all the functions concerning main
   *             serial interface management (not auxiliary)
   * @{
@@ -1930,7 +1930,7 @@ int32_t iis3dwb_i2c_interface_get(const stmdev_ctx_t *ctx,
   */
 
 /**
-  * @defgroup   IIS3DWB_interrupt_pins
+  * @defgroup   IIS3DWB_interrupt_pins Interrupt Pins
   * @brief      This section groups all the functions that manage
   *             interrupt pins
   * @{
@@ -2406,7 +2406,7 @@ int32_t iis3dwb_int_notification_get(const stmdev_ctx_t *ctx,
   */
 
 /**
-  * @defgroup   IIS3DWB_Wake_Up_event
+  * @defgroup   IIS3DWB_Wake_Up_event Wake Up Event Generation
   * @brief      This section groups all the functions that manage the
   *             Wake Up event generation.
   * @{
@@ -2653,7 +2653,7 @@ int32_t iis3dwb_wkup_dur_get(const stmdev_ctx_t *ctx, uint8_t *val)
   */
 
 /**
-  * @defgroup   IIS3DWB_ Activity/Inactivity_detection
+  * @defgroup   IIS3DWB_Activity_Inactivity_detection Activity/Inactivity Detection
   * @brief      This section groups all the functions concerning
   *             activity/inactivity detection.
   * @{
@@ -2715,7 +2715,7 @@ int32_t iis3dwb_act_sleep_dur_get(const stmdev_ctx_t *ctx, uint8_t *val)
   */
 
 /**
-  * @defgroup   IIS3DWB_fifo
+  * @defgroup   IIS3DWB_fifo FIFO Functions
   * @brief      This section group all the functions concerning
   *             the fifo usage
   * @{
