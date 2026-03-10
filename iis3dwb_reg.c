@@ -1521,10 +1521,10 @@ int32_t iis3dwb_xl_filt_path_on_out_get(const stmdev_ctx_t *ctx,
 {
   iis3dwb_ctrl1_xl_t ctrl1_xl;
   iis3dwb_ctrl8_xl_t ctrl8_xl;
+  int32_t ret;
+  uint8_t is_low_pass;
 
-  *val = IIS3DWB_HP_REF_MODE;
-
-  int32_t ret = iis3dwb_read_reg(ctx, IIS3DWB_CTRL1_XL, (uint8_t *)&ctrl1_xl, 1);
+  ret = iis3dwb_read_reg(ctx, IIS3DWB_CTRL1_XL, (uint8_t *)&ctrl1_xl, 1);
   if (ret != 0)
   {
     return ret;
@@ -1536,80 +1536,63 @@ int32_t iis3dwb_xl_filt_path_on_out_get(const stmdev_ctx_t *ctx,
     return ret;
   }
 
-  switch ((ctrl1_xl.lpf2_xl_en << 7) + (ctrl8_xl.hp_ref_mode_xl << 5) +
-          (ctrl8_xl.fds << 4) + ctrl8_xl.hpcf_xl)
+  if (ctrl8_xl.fds == 0 && ctrl1_xl.lpf2_xl_en == 0)
   {
-    case 0x37:
-      *val = IIS3DWB_HP_REF_MODE;
-      break;
+    *val = IIS3DWB_LP_6k3Hz;
+  }
+  else
+  {
+    is_low_pass = ctrl8_xl.fds == 0 ? 1 : 0;
 
-    case 0x11:
-      *val = IIS3DWB_HP_ODR_DIV_10;
-      break;
+    switch (ctrl8_xl.hpcf_xl)
+    {
+      case 0x00:
+        *val = is_low_pass ? IIS3DWB_LP_ODR_DIV_4 : IIS3DWB_SLOPE_ODR_DIV_4;
+        break;
 
-    case 0x12:
-      *val = IIS3DWB_HP_ODR_DIV_20;
-      break;
+      case 0x01:
+        *val = is_low_pass ? IIS3DWB_LP_ODR_DIV_10 : IIS3DWB_HP_ODR_DIV_10;
+        break;
 
-    case 0x13:
-      *val = IIS3DWB_HP_ODR_DIV_45;
-      break;
+      case 0x02:
+        *val = is_low_pass ? IIS3DWB_LP_ODR_DIV_20 : IIS3DWB_HP_ODR_DIV_20;
+        break;
 
-    case 0x14:
-      *val = IIS3DWB_HP_ODR_DIV_100;
-      break;
+      case 0x03:
+        *val = is_low_pass ? IIS3DWB_LP_ODR_DIV_45 : IIS3DWB_HP_ODR_DIV_45;
+        break;
 
-    case 0x15:
-      *val = IIS3DWB_HP_ODR_DIV_200;
-      break;
+      case 0x04:
+        *val = is_low_pass ? IIS3DWB_LP_ODR_DIV_100 : IIS3DWB_HP_ODR_DIV_100;
+        break;
 
-    case 0x16:
-      *val = IIS3DWB_HP_ODR_DIV_400;
-      break;
+      case 0x05:
+        *val = is_low_pass ? IIS3DWB_LP_ODR_DIV_200 : IIS3DWB_HP_ODR_DIV_200;
+        break;
 
-    case 0x17:
-      *val = IIS3DWB_HP_ODR_DIV_800;
-      break;
+      case 0x06:
+        *val = is_low_pass ? IIS3DWB_LP_ODR_DIV_400 : IIS3DWB_HP_ODR_DIV_400;
+        break;
 
-    case 0x80:
-      *val = IIS3DWB_LP_ODR_DIV_4;
-      break;
+      case 0x07:
+        if (is_low_pass)
+        {
+          *val = IIS3DWB_LP_ODR_DIV_800;
+        }
+        else if (ctrl8_xl.hp_ref_mode_xl == 1)
+        {
+          *val = IIS3DWB_HP_REF_MODE;
+        }
+        else
+        {
+          *val = IIS3DWB_HP_ODR_DIV_800;
+        }
+        break;
 
-    case 0x00:
-      *val = IIS3DWB_LP_6k3Hz;
-      break;
-
-    case 0x81:
-      *val = IIS3DWB_LP_ODR_DIV_10;
-      break;
-
-    case 0x82:
-      *val = IIS3DWB_LP_ODR_DIV_20;
-      break;
-
-    case 0x83:
-      *val = IIS3DWB_LP_ODR_DIV_45;
-      break;
-
-    case 0x84:
-      *val = IIS3DWB_LP_ODR_DIV_100;
-      break;
-
-    case 0x85:
-      *val = IIS3DWB_LP_ODR_DIV_200;
-      break;
-
-    case 0x86:
-      *val = IIS3DWB_LP_ODR_DIV_400;
-      break;
-
-    case 0x87:
-      *val = IIS3DWB_LP_ODR_DIV_800;
-      break;
-
-    default:
-      *val = IIS3DWB_HP_REF_MODE;
-      break;
+      default:
+        *val = is_low_pass ? IIS3DWB_LP_ODR_DIV_4 : IIS3DWB_SLOPE_ODR_DIV_4;
+        break;
+    }
   }
 
   return ret;
