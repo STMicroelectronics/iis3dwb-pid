@@ -201,19 +201,19 @@ int32_t iis3dwb_xl_full_scale_get(const stmdev_ctx_t *ctx,
 
   switch (ctrl1_xl.fs_xl)
   {
-    case IIS3DWB_2g:
+    case 0x00:
       *val = IIS3DWB_2g;
       break;
 
-    case IIS3DWB_16g:
+    case 0x01:
       *val = IIS3DWB_16g;
       break;
 
-    case IIS3DWB_4g:
+    case 0x02:
       *val = IIS3DWB_4g;
       break;
 
-    case IIS3DWB_8g:
+    case 0x03:
       *val = IIS3DWB_8g;
       break;
 
@@ -271,11 +271,11 @@ int32_t iis3dwb_xl_data_rate_get(const stmdev_ctx_t *ctx,
 
   switch (ctrl1_xl.xl_en)
   {
-    case IIS3DWB_XL_ODR_OFF:
+    case 0x00:
       *val = IIS3DWB_XL_ODR_OFF;
       break;
 
-    case IIS3DWB_XL_ODR_26k7Hz:
+    case 0x05:
       *val = IIS3DWB_XL_ODR_26k7Hz;
       break;
 
@@ -380,11 +380,11 @@ int32_t iis3dwb_xl_offset_weight_get(const stmdev_ctx_t *ctx,
 
   switch (ctrl6_c.usr_off_w)
   {
-    case IIS3DWB_LSb_1mg:
+    case 0x00:
       *val = IIS3DWB_LSb_1mg;
       break;
 
-    case IIS3DWB_LSb_16mg:
+    case 0x01:
       *val = IIS3DWB_LSb_16mg;
       break;
 
@@ -464,31 +464,31 @@ int32_t iis3dwb_xl_axis_selection_get(const stmdev_ctx_t *ctx,
 
   switch ((ctrl4_c._1ax_to_3regout << 4) + ctrl6_c.xl_axis_sel)
   {
-    case IIS3DWB_ENABLE_ALL:
+    case 0x00:
       *val = IIS3DWB_ENABLE_ALL;
       break;
 
-    case IIS3DWB_ONLY_X_ON_ONE_OUT_REG:
+    case 0x01:
       *val = IIS3DWB_ONLY_X_ON_ONE_OUT_REG;
       break;
 
-    case IIS3DWB_ONLY_Y_ON_ONE_OUT_REG:
+    case 0x02:
       *val = IIS3DWB_ONLY_Y_ON_ONE_OUT_REG;
       break;
 
-    case IIS3DWB_ONLY_Z_ON_ONE_OUT_REG:
+    case 0x03:
       *val = IIS3DWB_ONLY_Z_ON_ONE_OUT_REG;
       break;
 
-    case IIS3DWB_ONLY_X_ON_ALL_OUT_REG:
+    case 0x11:
       *val = IIS3DWB_ONLY_X_ON_ALL_OUT_REG;
       break;
 
-    case IIS3DWB_ONLY_Y_ON_ALL_OUT_REG:
+    case 0x12:
       *val = IIS3DWB_ONLY_Y_ON_ALL_OUT_REG;
       break;
 
-    case IIS3DWB_ONLY_Z_ON_ALL_OUT_REG:
+    case 0x13:
       *val = IIS3DWB_ONLY_Z_ON_ALL_OUT_REG;
       break;
 
@@ -904,11 +904,11 @@ int32_t iis3dwb_rounding_mode_get(const stmdev_ctx_t *ctx,
 
   switch (ctrl5_c.rounding)
   {
-    case IIS3DWB_NO_ROUND:
+    case 0x00:
       *val = IIS3DWB_NO_ROUND;
       break;
 
-    case IIS3DWB_ROUND:
+    case 0x01:
       *val = IIS3DWB_ROUND;
       break;
 
@@ -1033,15 +1033,15 @@ int32_t iis3dwb_fifo_sensor_tag_get(const stmdev_ctx_t *ctx,
 
   switch (fifo_data_out_tag.tag_sensor)
   {
-    case IIS3DWB_XL_TAG:
+    case 0x02:
       *val = IIS3DWB_XL_TAG;
       break;
 
-    case IIS3DWB_TEMPERATURE_TAG:
+    case 0x03:
       *val = IIS3DWB_TEMPERATURE_TAG;
       break;
 
-    case IIS3DWB_TIMESTAMP_TAG:
+    case 0x04:
       *val = IIS3DWB_TIMESTAMP_TAG;
       break;
 
@@ -1168,11 +1168,11 @@ int32_t iis3dwb_data_ready_mode_get(const stmdev_ctx_t *ctx,
 
   switch (counter_bdr_reg1.dataready_pulsed)
   {
-    case IIS3DWB_DRDY_LATCHED:
+    case 0x00:
       *val = IIS3DWB_DRDY_LATCHED;
       break;
 
-    case IIS3DWB_DRDY_PULSED:
+    case 0x01:
       *val = IIS3DWB_DRDY_PULSED;
       break;
 
@@ -1386,15 +1386,15 @@ int32_t iis3dwb_xl_self_test_get(const stmdev_ctx_t *ctx,
 
   switch (ctrl5_c.st_xl)
   {
-    case IIS3DWB_XL_ST_DISABLE:
+    case 0x00:
       *val = IIS3DWB_XL_ST_DISABLE;
       break;
 
-    case IIS3DWB_XL_ST_POSITIVE:
+    case 0x01:
       *val = IIS3DWB_XL_ST_POSITIVE;
       break;
 
-    case IIS3DWB_XL_ST_NEGATIVE:
+    case 0x02:
       *val = IIS3DWB_XL_ST_NEGATIVE;
       break;
 
@@ -1539,71 +1539,71 @@ int32_t iis3dwb_xl_filt_path_on_out_get(const stmdev_ctx_t *ctx,
   switch ((ctrl1_xl.lpf2_xl_en << 7) + (ctrl8_xl.hp_ref_mode_xl << 5) +
           (ctrl8_xl.fds << 4) + ctrl8_xl.hpcf_xl)
   {
-    case IIS3DWB_HP_REF_MODE:
+    case 0x37:
       *val = IIS3DWB_HP_REF_MODE;
       break;
 
-    case IIS3DWB_HP_ODR_DIV_10:
+    case 0x11:
       *val = IIS3DWB_HP_ODR_DIV_10;
       break;
 
-    case IIS3DWB_HP_ODR_DIV_20:
+    case 0x12:
       *val = IIS3DWB_HP_ODR_DIV_20;
       break;
 
-    case IIS3DWB_HP_ODR_DIV_45:
+    case 0x13:
       *val = IIS3DWB_HP_ODR_DIV_45;
       break;
 
-    case IIS3DWB_HP_ODR_DIV_100:
+    case 0x14:
       *val = IIS3DWB_HP_ODR_DIV_100;
       break;
 
-    case IIS3DWB_HP_ODR_DIV_200:
+    case 0x15:
       *val = IIS3DWB_HP_ODR_DIV_200;
       break;
 
-    case IIS3DWB_HP_ODR_DIV_400:
+    case 0x16:
       *val = IIS3DWB_HP_ODR_DIV_400;
       break;
 
-    case IIS3DWB_HP_ODR_DIV_800:
+    case 0x17:
       *val = IIS3DWB_HP_ODR_DIV_800;
       break;
 
-    case IIS3DWB_LP_ODR_DIV_4:
+    case 0x80:
       *val = IIS3DWB_LP_ODR_DIV_4;
       break;
 
-    case IIS3DWB_LP_6k3Hz:
+    case 0x00:
       *val = IIS3DWB_LP_6k3Hz;
       break;
 
-    case IIS3DWB_LP_ODR_DIV_10:
+    case 0x81:
       *val = IIS3DWB_LP_ODR_DIV_10;
       break;
 
-    case IIS3DWB_LP_ODR_DIV_20:
+    case 0x82:
       *val = IIS3DWB_LP_ODR_DIV_20;
       break;
 
-    case IIS3DWB_LP_ODR_DIV_45:
+    case 0x83:
       *val = IIS3DWB_LP_ODR_DIV_45;
       break;
 
-    case IIS3DWB_LP_ODR_DIV_100:
+    case 0x84:
       *val = IIS3DWB_LP_ODR_DIV_100;
       break;
 
-    case IIS3DWB_LP_ODR_DIV_200:
+    case 0x85:
       *val = IIS3DWB_LP_ODR_DIV_200;
       break;
 
-    case IIS3DWB_LP_ODR_DIV_400:
+    case 0x86:
       *val = IIS3DWB_LP_ODR_DIV_400;
       break;
 
-    case IIS3DWB_LP_ODR_DIV_800:
+    case 0x87:
       *val = IIS3DWB_LP_ODR_DIV_800;
       break;
 
@@ -1714,11 +1714,11 @@ int32_t iis3dwb_xl_hp_path_internal_get(const stmdev_ctx_t *ctx,
 
   switch (int_cfg0.slope_fds)
   {
-    case IIS3DWB_USE_SLOPE:
+    case 0x00:
       *val = IIS3DWB_USE_SLOPE;
       break;
 
-    case IIS3DWB_USE_HPF:
+    case 0x01:
       *val = IIS3DWB_USE_HPF;
       break;
 
@@ -1788,11 +1788,11 @@ int32_t iis3dwb_sdo_sa0_mode_get(const stmdev_ctx_t *ctx,
 
   switch (pin_ctrl.sdo_pu_en)
   {
-    case IIS3DWB_PULL_UP_DISC:
+    case 0x00:
       *val = IIS3DWB_PULL_UP_DISC;
       break;
 
-    case IIS3DWB_PULL_UP_CONNECT:
+    case 0x01:
       *val = IIS3DWB_PULL_UP_CONNECT;
       break;
 
@@ -1847,11 +1847,11 @@ int32_t iis3dwb_spi_mode_get(const stmdev_ctx_t *ctx, iis3dwb_sim_t *val)
 
   switch (ctrl3_c.sim)
   {
-    case IIS3DWB_SPI_4_WIRE:
+    case 0x00:
       *val = IIS3DWB_SPI_4_WIRE;
       break;
 
-    case IIS3DWB_SPI_3_WIRE:
+    case 0x01:
       *val = IIS3DWB_SPI_3_WIRE;
       break;
 
@@ -1908,11 +1908,11 @@ int32_t iis3dwb_i2c_interface_get(const stmdev_ctx_t *ctx,
 
   switch (ctrl4_c.i2c_disable)
   {
-    case IIS3DWB_I2C_ENABLE:
+    case 0x00:
       *val = IIS3DWB_I2C_ENABLE;
       break;
 
-    case IIS3DWB_I2C_DISABLE:
+    case 0x01:
       *val = IIS3DWB_I2C_DISABLE;
       break;
 
@@ -2216,11 +2216,11 @@ int32_t iis3dwb_pin_mode_get(const stmdev_ctx_t *ctx, iis3dwb_pp_od_t *val)
 
   switch (ctrl3_c.pp_od)
   {
-    case IIS3DWB_PUSH_PULL:
+    case 0x00:
       *val = IIS3DWB_PUSH_PULL;
       break;
 
-    case IIS3DWB_OPEN_DRAIN:
+    case 0x01:
       *val = IIS3DWB_OPEN_DRAIN;
       break;
 
@@ -2277,11 +2277,11 @@ int32_t iis3dwb_pin_polarity_get(const stmdev_ctx_t *ctx,
 
   switch (ctrl3_c.h_lactive)
   {
-    case IIS3DWB_ACTIVE_HIGH:
+    case 0x00:
       *val = IIS3DWB_ACTIVE_HIGH;
       break;
 
-    case IIS3DWB_ACTIVE_LOW:
+    case 0x01:
       *val = IIS3DWB_ACTIVE_LOW;
       break;
 
@@ -2384,11 +2384,11 @@ int32_t iis3dwb_int_notification_get(const stmdev_ctx_t *ctx,
 
   switch (slope_en.lir)
   {
-    case IIS3DWB_INT_PULSED:
+    case 0x00:
       *val = IIS3DWB_INT_PULSED;
       break;
 
-    case IIS3DWB_INT_LATCHED:
+    case 0x01:
       *val = IIS3DWB_INT_LATCHED;
       break;
 
@@ -2465,11 +2465,11 @@ int32_t iis3dwb_wkup_ths_weight_get(const stmdev_ctx_t *ctx,
 
   switch (wake_up_dur.wake_ths_w)
   {
-    case IIS3DWB_LSb_FS_DIV_64:
+    case 0x00:
       *val = IIS3DWB_LSb_FS_DIV_64;
       break;
 
-    case IIS3DWB_LSb_FS_DIV_256:
+    case 0x01:
       *val = IIS3DWB_LSb_FS_DIV_256;
       break;
 
@@ -2892,11 +2892,11 @@ int32_t iis3dwb_fifo_xl_batch_get(const stmdev_ctx_t *ctx,
 
   switch (fifo_ctrl3.bdr_xl)
   {
-    case IIS3DWB_XL_NOT_BATCHED:
+    case 0x00:
       *val = IIS3DWB_XL_NOT_BATCHED;
       break;
 
-    case IIS3DWB_XL_BATCHED_AT_26k7Hz:
+    case 0x10:
       *val = IIS3DWB_XL_BATCHED_AT_26k7Hz;
       break;
 
@@ -2956,27 +2956,27 @@ int32_t iis3dwb_fifo_mode_get(const stmdev_ctx_t *ctx,
 
   switch (fifo_ctrl4.fifo_mode)
   {
-    case IIS3DWB_BYPASS_MODE:
+    case 0x00:
       *val = IIS3DWB_BYPASS_MODE;
       break;
 
-    case IIS3DWB_FIFO_MODE:
+    case 0x01:
       *val = IIS3DWB_FIFO_MODE;
       break;
 
-    case IIS3DWB_STREAM_TO_FIFO_MODE:
+    case 0x03:
       *val = IIS3DWB_STREAM_TO_FIFO_MODE;
       break;
 
-    case IIS3DWB_BYPASS_TO_STREAM_MODE:
+    case 0x04:
       *val = IIS3DWB_BYPASS_TO_STREAM_MODE;
       break;
 
-    case IIS3DWB_STREAM_MODE:
+    case 0x06:
       *val = IIS3DWB_STREAM_MODE;
       break;
 
-    case IIS3DWB_BYPASS_TO_FIFO_MODE:
+    case 0x07:
       *val = IIS3DWB_BYPASS_TO_FIFO_MODE;
       break;
 
@@ -3038,11 +3038,11 @@ int32_t iis3dwb_fifo_temp_batch_get(const stmdev_ctx_t *ctx,
 
   switch (fifo_ctrl4.odr_t_batch)
   {
-    case IIS3DWB_TEMP_NOT_BATCHED:
+    case 0x00:
       *val = IIS3DWB_TEMP_NOT_BATCHED;
       break;
 
-    case IIS3DWB_TEMP_BATCHED_AT_104Hz:
+    case 0x03:
       *val = IIS3DWB_TEMP_BATCHED_AT_104Hz;
       break;
 
@@ -3107,19 +3107,19 @@ int32_t iis3dwb_fifo_timestamp_batch_get(const stmdev_ctx_t *ctx,
 
   switch (fifo_ctrl4.odr_ts_batch)
   {
-    case IIS3DWB_NO_DECIMATION:
+    case 0x00:
       *val = IIS3DWB_NO_DECIMATION;
       break;
 
-    case IIS3DWB_DEC_1:
+    case 0x01:
       *val = IIS3DWB_DEC_1;
       break;
 
-    case IIS3DWB_DEC_8:
+    case 0x02:
       *val = IIS3DWB_DEC_8;
       break;
 
-    case IIS3DWB_DEC_32:
+    case 0x03:
       *val = IIS3DWB_DEC_32;
       break;
 
