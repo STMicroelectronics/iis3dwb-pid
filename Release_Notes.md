@@ -30,7 +30,24 @@ This directory contains the IIS3DWB component drivers.
 # Update history
 
 ::: {.collapse}
-<input type="checkbox" id="collapse-section7" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section8" checked aria-hidden="true">
+<label for="collapse-section8" aria-hidden="true">V2.2.1 / 18-Mar-2026</label>
+<div>
+
+## Main changes
+
+- Improve xl_filt_path_on_out_get API switch handling
+- Change switch cases to use raw uint8_t values
+- Re-order update history with most updated on top
+- const qualify parameters
+- Fix Doxygen docs, add titles to @defgroup definitions (fixes #20)
+- Fix code style
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section7" aria-hidden="true">
 <label for="collapse-section7" aria-hidden="true">V2.2.0 / 07-Oct-2025</label>
 <div>
 
