@@ -108,8 +108,17 @@ typedef struct
   *
   */
 
-typedef int32_t (*stmdev_write_ptr)(void *, uint8_t, const uint8_t *, uint16_t);
-typedef int32_t (*stmdev_read_ptr)(void *, uint8_t, uint8_t *, uint16_t);
+typedef int32_t (*stmdev_write_ptr)(
+  void *handle,
+  uint8_t reg,
+  const uint8_t *buf,
+  uint16_t len);
+
+typedef int32_t (*stmdev_read_ptr)(
+  void *handle,
+  uint8_t reg,
+  uint8_t *buf,
+  uint16_t len);
 typedef void (*stmdev_mdelay_ptr)(uint32_t millisec);
 
 typedef struct
@@ -767,7 +776,7 @@ extern float_t iis3dwb_from_lsb_to_nsec(int32_t lsb);
 typedef enum
 {
   IIS3DWB_2g   = 0,
-  IIS3DWB_16g  = 1, /* if XL_FS_MODE = '1' -> IIS3DWB_2g */
+  IIS3DWB_16g  = 1,
   IIS3DWB_4g   = 2,
   IIS3DWB_8g   = 3,
 } iis3dwb_fs_xl_t;
@@ -979,38 +988,28 @@ int32_t iis3dwb_i2c_interface_get(const stmdev_ctx_t *ctx,
 typedef struct
 {
   uint8_t drdy_xl       : 1; /* Accelerometer data ready */
-  uint8_t boot          : 1; /* Restoring calibration parameters */
+  uint8_t boot          : 1; /* Restoring calibration parameters (only INT1) */
+  uint8_t drdy_temp     : 1; /* Temperature data ready (only INT2) */
   uint8_t fifo_th       : 1; /* FIFO threshold reached */
   uint8_t fifo_ovr      : 1; /* FIFO overrun */
   uint8_t fifo_full     : 1; /* FIFO full */
   uint8_t fifo_bdr      : 1; /* FIFO Batch counter threshold reached */
-  uint8_t wake_up       : 1; /* wake up event */
-uint8_t sleep_change  :
-  1; /* Act/Inact (or Vice-versa) status changed */
-  uint8_t sleep_status  : 1; /* Act/Inact status */
-} iis3dwb_pin_int1_route_t;
-int32_t iis3dwb_pin_int1_route_set(const stmdev_ctx_t *ctx,
-                                   const iis3dwb_pin_int1_route_t *val);
-int32_t iis3dwb_pin_int1_route_get(const stmdev_ctx_t *ctx,
-                                   iis3dwb_pin_int1_route_t *val);
-
-typedef struct
-{
-  uint8_t drdy_xl       : 1; /* Accelerometer data ready */
-  uint8_t drdy_temp     : 1; /* Temperature data ready */
-  uint8_t fifo_th       : 1; /* FIFO threshold reached */
-  uint8_t fifo_ovr      : 1; /* FIFO overrun */
-  uint8_t fifo_full     : 1; /* FIFO full */
-  uint8_t fifo_bdr      : 1; /* FIFO Batch counter threshold reached */
-  uint8_t timestamp     : 1; /* timestamp overflow */
+  uint8_t timestamp     : 1; /* timestamp overflow (only INT2) */
   uint8_t wake_up       : 1; /* wake up event */
   uint8_t sleep_change  : 1; /* Act/Inact (or Vice-versa) status changed */
   uint8_t sleep_status  : 1; /* Act/Inact status */
-} iis3dwb_pin_int2_route_t;
+} iis3dwb_pin_int_route_t;
+
+
+int32_t iis3dwb_pin_int1_route_set(const stmdev_ctx_t *ctx,
+                                   const iis3dwb_pin_int_route_t *val);
+int32_t iis3dwb_pin_int1_route_get(const stmdev_ctx_t *ctx,
+                                   iis3dwb_pin_int_route_t *val);
+
 int32_t iis3dwb_pin_int2_route_set(const stmdev_ctx_t *ctx,
-                                   const iis3dwb_pin_int2_route_t *val);
+                                   const iis3dwb_pin_int_route_t *val);
 int32_t iis3dwb_pin_int2_route_get(const stmdev_ctx_t *ctx,
-                                   iis3dwb_pin_int2_route_t *val);
+                                   iis3dwb_pin_int_route_t *val);
 
 typedef enum
 {
