@@ -172,7 +172,7 @@ int32_t iis3dwb_xl_full_scale_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl1_xl.fs_xl = (uint8_t)val;
+    ctrl1_xl.fs_xl = (uint8_t)val & 0x03U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL1_XL,
                             (uint8_t *)&ctrl1_xl, 1);
   }
@@ -242,7 +242,7 @@ int32_t iis3dwb_xl_data_rate_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl1_xl.xl_en = (uint8_t)val;
+    ctrl1_xl.xl_en = (uint8_t)val & 0x07U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL1_XL,
                             (uint8_t *)&ctrl1_xl, 1);
   }
@@ -303,7 +303,7 @@ int32_t iis3dwb_block_data_update_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    ctrl3_c.bdu = (uint8_t)val;
+    ctrl3_c.bdu = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL3_C, (uint8_t *)&ctrl3_c, 1);
   }
 
@@ -351,7 +351,7 @@ int32_t iis3dwb_xl_offset_weight_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl6_c.usr_off_w = (uint8_t)val;
+    ctrl6_c.usr_off_w = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL6_C, (uint8_t *)&ctrl6_c, 1);
   }
 
@@ -426,7 +426,7 @@ int32_t iis3dwb_xl_axis_selection_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl6_c.xl_axis_sel = (uint8_t)val;
+    ctrl6_c.xl_axis_sel = (uint8_t)val & 0x03U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL6_C, (uint8_t *)&ctrl6_c, 1);
   }
 
@@ -613,7 +613,7 @@ int32_t iis3dwb_usr_offset_block_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    ctrl7_c.usr_off_on_out = val;
+    ctrl7_c.usr_off_on_out = val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL7_C, (uint8_t *)&ctrl7_c, 1);
   }
 
@@ -788,7 +788,7 @@ int32_t iis3dwb_timestamp_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    ctrl10_c.timestamp_en = (uint8_t)val;
+    ctrl10_c.timestamp_en = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL10_C,
                             (uint8_t *)&ctrl10_c, 1);
   }
@@ -876,7 +876,7 @@ int32_t iis3dwb_rounding_mode_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl5_c.rounding = (uint8_t)val;
+    ctrl5_c.rounding = (uint8_t)val & 0x03U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL5_C, (uint8_t *)&ctrl5_c, 1);
   }
 
@@ -940,8 +940,7 @@ int32_t iis3dwb_temperature_raw_get(const stmdev_ctx_t *ctx, int16_t *val)
     return ret;
   }
 
-  *val = (int16_t)buff[1];
-  *val = (*val * 256) + (int16_t)buff[0];
+  *val = (int16_t)(buff[0] | ((uint16_t)buff[1] << 8));
 
   return ret;
 }
@@ -965,12 +964,9 @@ int32_t iis3dwb_acceleration_raw_get(const stmdev_ctx_t *ctx, int16_t *val)
     return ret;
   }
 
-  val[0] = (int16_t)buff[1];
-  val[0] = (val[0] * 256) + (int16_t)buff[0];
-  val[1] = (int16_t)buff[3];
-  val[1] = (val[1] * 256) + (int16_t)buff[2];
-  val[2] = (int16_t)buff[5];
-  val[2] = (val[2] * 256) + (int16_t)buff[4];
+  val[0] = (int16_t)(buff[0] | ((uint16_t)buff[1] << 8));
+  val[1] = (int16_t)(buff[2] | ((uint16_t)buff[3] << 8));
+  val[2] = (int16_t)(buff[4] | ((uint16_t)buff[5] << 8));
 
   return ret;
 }
@@ -1137,7 +1133,7 @@ int32_t iis3dwb_data_ready_mode_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    counter_bdr_reg1.dataready_pulsed = (uint8_t)val;
+    counter_bdr_reg1.dataready_pulsed = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_COUNTER_BDR_REG1,
                             (uint8_t *)&counter_bdr_reg1, 1);
   }
@@ -1215,7 +1211,7 @@ int32_t iis3dwb_reset_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    ctrl3_c.sw_reset = (uint8_t)val;
+    ctrl3_c.sw_reset = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL3_C, (uint8_t *)&ctrl3_c, 1);
   }
 
@@ -1262,7 +1258,7 @@ int32_t iis3dwb_auto_increment_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    ctrl3_c.if_inc = (uint8_t)val;
+    ctrl3_c.if_inc = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL3_C, (uint8_t *)&ctrl3_c, 1);
   }
 
@@ -1309,7 +1305,7 @@ int32_t iis3dwb_boot_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    ctrl3_c.boot = (uint8_t)val;
+    ctrl3_c.boot = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL3_C, (uint8_t *)&ctrl3_c, 1);
   }
 
@@ -1358,7 +1354,7 @@ int32_t iis3dwb_xl_self_test_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl5_c.st_xl = (uint8_t)val;
+    ctrl5_c.st_xl = (uint8_t)val & 0x03U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL5_C, (uint8_t *)&ctrl5_c, 1);
   }
 
@@ -1439,7 +1435,7 @@ int32_t iis3dwb_filter_settling_mask_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl4_c.drdy_mask = (uint8_t)val;
+    ctrl4_c.drdy_mask = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL4_C, (uint8_t *)&ctrl4_c, 1);
   }
 
@@ -1488,7 +1484,7 @@ int32_t iis3dwb_xl_filt_path_on_out_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl1_xl.lpf2_xl_en = ((uint8_t)val & 0x80U) >> 7;
+    ctrl1_xl.lpf2_xl_en = ((uint8_t)val >> 7) & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL1_XL, (uint8_t *)&ctrl1_xl, 1);
   }
 
@@ -1616,7 +1612,7 @@ int32_t iis3dwb_xl_fast_settling_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    ctrl8_xl.fastsettl_mode_xl = (uint8_t)val;
+    ctrl8_xl.fastsettl_mode_xl = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL8_XL,
                             (uint8_t *)&ctrl8_xl, 1);
   }
@@ -1667,7 +1663,7 @@ int32_t iis3dwb_xl_hp_path_internal_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    int_cfg0.slope_fds = (uint8_t)val;
+    int_cfg0.slope_fds = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_SLOPE_EN,
                             (uint8_t *)&int_cfg0, 1);
   }
@@ -1743,7 +1739,7 @@ int32_t iis3dwb_sdo_sa0_mode_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    pin_ctrl.sdo_pu_en = (uint8_t)val;
+    pin_ctrl.sdo_pu_en = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_PIN_CTRL, (uint8_t *)&pin_ctrl, 1);
   }
 
@@ -1803,7 +1799,7 @@ int32_t iis3dwb_spi_mode_set(const stmdev_ctx_t *ctx, iis3dwb_sim_t val)
 
   if (ret == 0)
   {
-    ctrl3_c.sim = (uint8_t)val;
+    ctrl3_c.sim = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL3_C, (uint8_t *)&ctrl3_c, 1);
   }
 
@@ -1863,7 +1859,7 @@ int32_t iis3dwb_i2c_interface_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl4_c.i2c_disable = (uint8_t)val;
+    ctrl4_c.i2c_disable = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL4_C, (uint8_t *)&ctrl4_c, 1);
   }
 
@@ -2172,7 +2168,7 @@ int32_t iis3dwb_pin_mode_set(const stmdev_ctx_t *ctx, iis3dwb_pp_od_t val)
 
   if (ret == 0)
   {
-    ctrl3_c.pp_od = (uint8_t)val;
+    ctrl3_c.pp_od = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL3_C, (uint8_t *)&ctrl3_c, 1);
   }
 
@@ -2232,7 +2228,7 @@ int32_t iis3dwb_pin_polarity_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    ctrl3_c.h_lactive = (uint8_t)val;
+    ctrl3_c.h_lactive = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL3_C, (uint8_t *)&ctrl3_c, 1);
   }
 
@@ -2292,7 +2288,7 @@ int32_t iis3dwb_all_on_int1_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    ctrl4_c.int2_on_int1 = (uint8_t)val;
+    ctrl4_c.int2_on_int1 = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_CTRL4_C, (uint8_t *)&ctrl4_c, 1);
   }
 
@@ -2339,7 +2335,7 @@ int32_t iis3dwb_int_notification_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    slope_en.lir = (uint8_t)val;
+    slope_en.lir = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_SLOPE_EN, (uint8_t *)&slope_en, 1);
   }
 
@@ -2416,7 +2412,7 @@ int32_t iis3dwb_wkup_ths_weight_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    wake_up_dur.wake_ths_w = (uint8_t)val;
+    wake_up_dur.wake_ths_w = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_WAKE_UP_DUR,
                             (uint8_t *)&wake_up_dur, 1);
   }
@@ -2484,7 +2480,7 @@ int32_t iis3dwb_wkup_threshold_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    wake_up_ths.wk_ths = (uint8_t)val;
+    wake_up_ths.wk_ths = (uint8_t)val & 0x3FU;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_WAKE_UP_THS,
                             (uint8_t *)&wake_up_ths, 1);
   }
@@ -2548,7 +2544,7 @@ int32_t iis3dwb_xl_usr_offset_on_wkup_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    wake_up_ths.usr_off_on_wu = (uint8_t)val;
+    wake_up_ths.usr_off_on_wu = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_WAKE_UP_THS,
                             (uint8_t *)&wake_up_ths, 1);
   }
@@ -2598,7 +2594,7 @@ int32_t iis3dwb_wkup_dur_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    wake_up_dur.wake_dur = (uint8_t)val;
+    wake_up_dur.wake_dur = (uint8_t)val & 0x03U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_WAKE_UP_DUR,
                             (uint8_t *)&wake_up_dur, 1);
   }
@@ -2660,7 +2656,7 @@ int32_t iis3dwb_act_sleep_dur_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    wake_up_dur.sleep_dur = (uint8_t)val;
+    wake_up_dur.sleep_dur = (uint8_t)val & 0x0FU;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_WAKE_UP_DUR,
                             (uint8_t *)&wake_up_dur, 1);
   }
@@ -2767,9 +2763,8 @@ int32_t iis3dwb_fifo_watermark_get(const stmdev_ctx_t *ctx, uint16_t *val)
     return ret;
   }
 
-  *val = fifo_ctrl2.wtm;
-  *val = *val << 8;
-  *val += fifo_ctrl1.wtm;
+  *val = (uint16_t)(fifo_ctrl1.wtm
+                    | ((uint16_t)fifo_ctrl2.wtm << 8));
 
   return ret;
 }
@@ -2792,7 +2787,7 @@ int32_t iis3dwb_fifo_stop_on_wtm_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    fifo_ctrl2.stop_on_wtm = (uint8_t)val;
+    fifo_ctrl2.stop_on_wtm = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_FIFO_CTRL2,
                             (uint8_t *)&fifo_ctrl2, 1);
   }
@@ -2844,7 +2839,7 @@ int32_t iis3dwb_fifo_xl_batch_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    fifo_ctrl3.bdr_xl = (uint8_t)val;
+    fifo_ctrl3.bdr_xl = (uint8_t)val & 0x0FU;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_FIFO_CTRL3,
                             (uint8_t *)&fifo_ctrl3, 1);
   }
@@ -2909,7 +2904,7 @@ int32_t iis3dwb_fifo_mode_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    fifo_ctrl4.fifo_mode = (uint8_t)val;
+    fifo_ctrl4.fifo_mode = (uint8_t)val & 0x07U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_FIFO_CTRL4,
                             (uint8_t *)&fifo_ctrl4, 1);
   }
@@ -2990,7 +2985,7 @@ int32_t iis3dwb_fifo_temp_batch_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    fifo_ctrl4.odr_t_batch = (uint8_t)val;
+    fifo_ctrl4.odr_t_batch = (uint8_t)val & 0x03U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_FIFO_CTRL4,
                             (uint8_t *)&fifo_ctrl4, 1);
   }
@@ -3057,7 +3052,7 @@ int32_t iis3dwb_fifo_timestamp_batch_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    fifo_ctrl4.odr_ts_batch = (uint8_t)val;
+    fifo_ctrl4.odr_ts_batch = (uint8_t)val & 0x03U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_FIFO_CTRL4,
                             (uint8_t *)&fifo_ctrl4, 1);
   }
@@ -3132,7 +3127,7 @@ int32_t iis3dwb_rst_batch_counter_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    counter_bdr_reg1.rst_counter_bdr = (uint8_t)val;
+    counter_bdr_reg1.rst_counter_bdr = (uint8_t)val & 0x01U;
     ret = iis3dwb_write_reg(ctx, IIS3DWB_COUNTER_BDR_REG1,
                             (uint8_t *)&counter_bdr_reg1, 1);
   }
@@ -3231,9 +3226,8 @@ int32_t iis3dwb_batch_counter_threshold_get(const stmdev_ctx_t *ctx,
     return ret;
   }
 
-  *val = counter_bdr_reg1.cnt_bdr_th;
-  *val = *val << 8;
-  *val += counter_bdr_reg2.cnt_bdr_th;
+  *val = (uint16_t)(counter_bdr_reg2.cnt_bdr_th
+                    | ((uint16_t)counter_bdr_reg1.cnt_bdr_th << 8));
 
   return ret;
 }
@@ -3265,9 +3259,8 @@ int32_t iis3dwb_fifo_data_level_get(const stmdev_ctx_t *ctx, uint16_t *val)
     return ret;
   }
 
-  *val = fifo_status2.diff_fifo;
-  *val = *val << 8;
-  *val += fifo_status1.diff_fifo;
+  *val = (uint16_t)(fifo_status1.diff_fifo
+                    | ((uint16_t)fifo_status2.diff_fifo << 8));
 
   return ret;
 }
@@ -3294,8 +3287,7 @@ int32_t iis3dwb_fifo_status_get(const stmdev_ctx_t *ctx,
   val->fifo_full = status.fifo_full_ia;
   val->fifo_th = status.fifo_wtm_ia;
 
-  val->fifo_level = (uint16_t)buff[1] & 0x03U;
-  val->fifo_level = (val->fifo_level * 256U) + buff[0];
+  val->fifo_level = (uint16_t)(buff[0] | ((uint16_t)(buff[1]) << 8)) & 0x3FU;
 
   return ret;
 }
