@@ -1108,7 +1108,7 @@ int32_t iis3dwb_fifo_temp_batch_get(const stmdev_ctx_t *ctx,
 
 typedef enum
 {
-  IIS3DWB_NO_DECIMATION = 0,
+  IIS3DWB_NOT_BATCHED   = 0,
   IIS3DWB_DEC_1         = 1,
   IIS3DWB_DEC_8         = 2,
   IIS3DWB_DEC_32        = 3,
